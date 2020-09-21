@@ -1,6 +1,6 @@
 import React from "react";
 import {AppBar, Toolbar, Grid} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/styles';
 import {Card,CardMedia,CardContent} from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -14,7 +14,9 @@ const useStyles = makeStyles({
 const getPokemonCard = () => {
     return (
     <Grid item xs={12} sm={4}> 
-        <Card>Card</Card>
+        <CardContent>
+            <Card>Card</Card>
+        </CardContent>       
     </Grid>
     );
 };
