@@ -29,12 +29,12 @@ const Pokemon = (props) => {
     const { front_default } = sprites;
     return (
       <div className="pokeCard">
-        <Typography position variant="h3">
+        <Typography position variant="h4">
           {`${id}.`} {toFirstCharUppercase(name)}
           <img src={front_default} />
         </Typography>
         <img style={{ width: "150px", height: "150px" }} src={fullImageUrl} />
-        <Typography variant="h4">Pokemon Info</Typography>
+        <Typography variant="h5">Pokemon Info</Typography>
         <Typography>
           {"Species: "}
           <Link href={species.url}>{species.name} </Link>
