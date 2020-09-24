@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Typography, Link, CircularProgress, Button } from "@material-ui/core";
 import { toFirstCharUppercase } from "./constants";
 import axios from "axios";
+import './Pokemon.css'
 
 const Pokemon = (props) => {
   const { match, history } = props;
@@ -27,13 +28,13 @@ const Pokemon = (props) => {
     const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
     const { front_default } = sprites;
     return (
-      <>
-        <Typography variant="h1">
+      <div className="pokeCard">
+        <Typography position variant="h3">
           {`${id}.`} {toFirstCharUppercase(name)}
           <img src={front_default} />
         </Typography>
-        <img style={{ width: "300px", height: "300px" }} src={fullImageUrl} />
-        <Typography variant="h3">Pokemon Info</Typography>
+        <img style={{ width: "150px", height: "150px" }} src={fullImageUrl} />
+        <Typography variant="h4">Pokemon Info</Typography>
         <Typography>
           {"Species: "}
           <Link href={species.url}>{species.name} </Link>
@@ -46,20 +47,20 @@ const Pokemon = (props) => {
           const { name } = type;
           return <Typography key={name}> {`${name}`}</Typography>;
         })}
-      </>
+      </div>
     );
   };
   return (
-    <>
+    <div className="btnCont">
       {pokemon === undefined && <CircularProgress />}
       {pokemon !== undefined && pokemon && generatePokemonJSX(pokemon)}
       {pokemon === false && <Typography> Pokemon not found</Typography>}
       {pokemon !== undefined && (
-        <Button variant="contained" onClick={() => history.push("/")}>
+        <Button className="btn1" variant="contained" onClick={() => history.push("/")}>
           back to pokedex
         </Button>
       )}
-    </>
+    </div>
   );
 };
 export default Pokemon;
