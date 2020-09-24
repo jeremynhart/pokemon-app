@@ -33,7 +33,7 @@ const Pokemon = (props) => {
           {`${id}.`} {toFirstCharUppercase(name)}
           <img src={front_default} />
         </Typography>
-        <img style={{ width: "150px", height: "150px" }} src={fullImageUrl} />
+        <img style={{ width: "200px", height: "200px" }} src={fullImageUrl} />
         <br/><br/>
         <Typography variant="h5">Pokemon Info</Typography>
         <Typography>
