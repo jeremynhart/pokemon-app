@@ -11,12 +11,14 @@ const Pokemon = (props) => {
   const { pokemonId } = params;
   const [pokemon, setPokemon] = useState(undefined);
 
+
   useEffect(() => {
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
+      .get(`https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json`)
       .then(function (response) {
         const { data } = response;
-        setPokemon(data);
+        const selectedPokemon = data.pokemon.find(p => p.id === parseInt(pokemonId))
+        setPokemon(selectedPokemon);
       })
       .catch(function (error) {
         setPokemon(false);
@@ -24,32 +26,30 @@ const Pokemon = (props) => {
   }, [pokemonId]);
 
   const generatePokemonJSX = (pokemon) => {
-    const { name, id, species, height, weight, types, sprites } = pokemon;
-    const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
-    const { front_default } = sprites;
+    const { name, id, height, weight, type, img, weaknesses } = pokemon;
     return (
       <div className="pokeCard">
-        <Typography position variant="h4">
+        <Typography variant="h4">
           {`${id}.`} {toFirstCharUppercase(name)}
-          <img src={front_default} />
+          <img src={img} />
         </Typography>
-        <img style={{ width: "200px", height: "200px" }} src={fullImageUrl} />
-        <br/><br/>
-        <Typography variant="h5">Pokemon Info</Typography>
-        <br/>
+        <img style={{ width: "200px", height: "200px" }} src={img} />
         <Typography>
           {"Species: "}
-          <Link href={species.url}>{species.name} </Link>
+          <Link href={img}>{name} </Link>
         </Typography>
         <Typography>Height: {height} </Typography>
         <Typography>Weight: {weight} </Typography>
         <br/>
         <Typography variant="h6"> Types:</Typography>
-        {types.map((typeInfo) => {
-          const { type } = typeInfo;
-          const { name } = type;
+        {type.map(name => {
           return <Typography key={name}> {`${name}`}</Typography>;
         })}
+        <br/>
+        <Typography variant="h6"> Weaknesses:</Typography>
+        {weaknesses.map(name => {
+          return <Typography key={name}> {`${name}`}</Typography>;
+        })}        
       </div>
     );
   };

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Card, CardMedia, CardContent, Typography, CircularProgress, Toolbar, AppBar, TextField } from "@material-ui/core";
+import { Grid, Card, CardMedia, CardContent, Typography, CircularProgress, Toolbar, AppBar, TextField, Checkbox, FormControlLabel } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import { toFirstCharUppercase } from "./constants";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
+import {flattenDeep, uniq} from 'lodash';
+import './Pokedex.css'
 
 const useStyles = makeStyles((theme) => ({
     pokedexContainer: {
@@ -38,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
     width: "200px",
     marginBottom: "20px",
 },
-
 }));
 
 const Pokedex = (props) => {
@@ -46,21 +47,23 @@ const Pokedex = (props) => {
     const { history } = props;
     const [pokemonData, setPokemonData] = useState({});
     const [filter, setFilter] = useState("");
+    const [selectedTypes, setSelectedTypes] = useState([]);
+    const [selectedWeaknesses, setSelectedWeaknesses] = useState([]);
 
 useEffect(() => {
     axios
-        .get(`https://pokeapi.co/api/v2/pokemon?limit=100`)
+        .get(`https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json`)
         .then(function (response) {
         const { data } = response;
-        const { results } = data;
+        const { pokemon } = data;
         const newPokemonData = {};
-        results.forEach((pokemon, index) => {
+        pokemon.forEach((pokemon, index) => {
             newPokemonData[index + 1] = {
             id: index + 1,
+            type: pokemon.type,
             name: pokemon.name,
-            sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                index + 1
-            }.png`,
+            weaknesses: pokemon.weaknesses,
+            sprite: pokemon.img,
             };
         });
         setPokemonData(newPokemonData);
@@ -69,8 +72,26 @@ useEffect(() => {
 []);
 
 const handleSearchChange = (e) => {
-    setFilter(e.target.value);
+    setFilter(e.target.value.toLowerCase());
 };
+
+const handleTypeChange = (e) => {
+    const {name, checked} = e.target;
+    if (checked){
+        setSelectedTypes(types => types.concat(name));
+    } else {
+        setSelectedTypes(types => types.filter(type => type !== name));
+    }
+}
+
+const handleWeaknessChange = (e) => {
+    const {name, checked} = e.target;
+    if (checked){
+        setSelectedWeaknesses(weaknesses => weaknesses.concat(name));
+    } else {
+        setSelectedWeaknesses(weaknesses => weaknesses.filter(weakness => weakness !== name));
+    }
+}
 
 const getPokemonCard = (pokemonId) => {
     const { id, name, sprite } = pokemonData[pokemonId];
@@ -92,23 +113,45 @@ const getPokemonCard = (pokemonId) => {
 
 return (
     <>
-        <AppBar position="sticky">
+        <AppBar position="static">
             <Toolbar>
             <div className={classes.searchContainer}>
-            <SearchIcon className={classes.searchIcon} />
-            <TextField
-                className={classes.searchInput}
-                onChange={handleSearchChange}
-                label="Pokemon"
-                ariant="standard"
-            />
+                <SearchIcon className={classes.searchIcon} />
+                <TextField
+                    className={classes.searchInput}
+                    onChange={handleSearchChange}
+                    label="Pokemon"
+                    ariant="standard"
+                />
             </div>
+            <div id="typeCheck">
+                <h3>Types</h3>
+                {uniq(flattenDeep(Object.values(pokemonData).map(pokemon => pokemon.type))).map((type, i) => (
+                    <FormControlLabel
+                        key={i}
+                        control={<Checkbox name={type} onChange={handleTypeChange} />}
+                        label={type}
+                    />
+                ))}
+            </div>
+            <div id="weakCheck">
+                <h3>Weaknesses</h3>
+                {uniq(flattenDeep(Object.values(pokemonData).map(pokemon => pokemon.weaknesses))).map((weakness, i) => (
+                    <FormControlLabel
+                        key={i}
+                        control={<Checkbox onChange={handleWeaknessChange} name={weakness} />}
+                        label={weakness}
+                    />
+                ))}
+            </div>            
             </Toolbar>
             </AppBar>
         {pokemonData ? (
             <Grid container spacing={2} className={classes.pokedexContainer}>
                 {Object.keys(pokemonData).map((pokemonId) =>
-                    pokemonData[pokemonId].name.includes(filter) &&
+                    pokemonData[pokemonId].name.toLowerCase().includes(filter) &&
+                    (selectedTypes.length ? selectedTypes.some(type => pokemonData[pokemonId].type.includes(type)) : true) &&
+                    (selectedWeaknesses.length ? selectedWeaknesses.some(weakness => pokemonData[pokemonId].weaknesses.includes(weakness)) : true) &&                    
                     getPokemonCard(pokemonId)
                 )}
         </Grid>
