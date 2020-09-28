@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: fade(theme.palette.common.white, 0.15),
     paddingLeft: "20px",
     paddingRight: "20px",
-    marginLeft: "35px",
+    marginLeft: "30px",
     marginRight: "30px",
     marginTop: "20px",
     marginBottom: "20px",
@@ -39,12 +39,14 @@ const useStyles = makeStyles((theme) => ({
 
     searchIcon: {
     alignSelf: "flex-end",
-    marginBottom: "5px",
+    marginBottom: "30px",
+    marginLeft: "10px",
+    marginRight: "10px",
 },
 
     searchInput: {
     width: "200px",
-    marginBottom: "20px",
+    marginTop: "6px",
 },
 }));
 
@@ -122,6 +124,7 @@ return (
         <AppBar color="primary" position="static">
             <Toolbar>
             <div className={classes.searchContainer}>
+            <h1>POKEDEX</h1>
                 <SearchIcon className={classes.searchIcon} />
                 <TextField
                     className={classes.searchInput}
