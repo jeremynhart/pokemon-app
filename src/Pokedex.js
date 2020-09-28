@@ -79,7 +79,7 @@ useEffect(() => {
 
 const handleSearchChange = (e) => {
     setFilter(e.target.value.toLowerCase());
-};
+}; 
 
 const handleTypeChange = (e) => {
     const {name, checked} = e.target;
@@ -126,12 +126,12 @@ return (
                 <TextField
                     className={classes.searchInput}
                     onChange={handleSearchChange}
-                    label="Pokemon"
+                    label="Search by Name"
                     ariant="standard"
                 />
             </div>
             <div id="typeCheck">
-                <h3>Types</h3>
+                <h3>Search by Types</h3>
                 {uniq(flattenDeep(Object.values(pokemonData).map(pokemon => pokemon.type))).map((type, i) => (
                     <FormControlLabel
                         key={i}
@@ -141,7 +141,7 @@ return (
                 ))}
             </div>
             <div id="weakCheck">
-                <h3>Weaknesses</h3>
+                <h3>Search by Weaknesses</h3>
                 {uniq(flattenDeep(Object.values(pokemonData).map(pokemon => pokemon.weaknesses))).map((weakness, i) => (
                     <FormControlLabel
                         key={i}
