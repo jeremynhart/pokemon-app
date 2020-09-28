@@ -15,10 +15,14 @@ const useStyles = makeStyles((theme) => ({
 },
 
     cardMedia: {
+    display: "flex-block",
     margin: "auto",
+    marginTop: "50px",
+    marginBottom: "40px",
 },
 
     cardContent: {
+    height: "20px",
     textAlign: "center",
 },
 
@@ -27,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: fade(theme.palette.common.white, 0.15),
     paddingLeft: "20px",
     paddingRight: "20px",
+    marginLeft: "35px",
+    marginRight: "30px",
     marginTop: "20px",
     marginBottom: "20px",
 },
@@ -101,7 +107,7 @@ const getPokemonCard = (pokemonId) => {
                 <CardMedia
                     className={classes.cardMedia}
                     image={sprite}
-                    style={{ width: "130px", height: "130px" }}
+                    style={{ width: "175px", height: "175px" }}
                 />
             <CardContent className={classes.cardContent}>
                 <Typography>{`${id}. ${toFirstCharUppercase(name)}`}</Typography>

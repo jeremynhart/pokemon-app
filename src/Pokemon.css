@@ -1,12 +1,9 @@
 .btnCont {
-    margin: 10%;
-    justify-content: center;
-    align-items: center;
+    margin: 5%;
+
 }
 
 .btnCont button {
     margin: 20px;
-    justify-content: center;
-    align-items: center;
 }
 
