@@ -119,7 +119,7 @@ const getPokemonCard = (pokemonId) => {
 
 return (
     <>
-        <AppBar position="static">
+        <AppBar color="primary" position="static">
             <Toolbar>
             <div className={classes.searchContainer}>
                 <SearchIcon className={classes.searchIcon} />
