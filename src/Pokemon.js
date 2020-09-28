@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import { Typography, Link, CircularProgress, Button } from "@material-ui/core";
-import { toFirstCharUppercase } from "./constants";
 import axios from "axios";
 import './Pokemon.css'
 
@@ -10,6 +9,7 @@ const Pokemon = (props) => {
   const { params } = match;
   const { pokemonId } = params;
   const [pokemon, setPokemon] = useState(undefined);
+ 
 
 
   useEffect(() => {
@@ -24,7 +24,8 @@ const Pokemon = (props) => {
         setPokemon(false);
       });
   }, [pokemonId]);
-
+  
+  const toFirstCharUppercase = name => name.charAt(0).toUpperCase() + name.slice(1);
   const generatePokemonJSX = (pokemon) => {
     const { name, id, height, weight, type, img, weaknesses } = pokemon;
     return (
